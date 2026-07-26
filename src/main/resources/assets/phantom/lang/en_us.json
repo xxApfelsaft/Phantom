@@ -81,6 +81,15 @@
 	"modules.custom_name_tag.settings.obfuscated.description": "Scramble the text (&k)",
 
 	"hud.elements.server_ip.name": "Server IP",
+	"hud.elements.active_modules.name": "Active Modules",
+	"hud.elements.active_modules.settings.rgbMode.name": "RGB Mode",
+	"hud.elements.active_modules.settings.rgbMode.description": "Animate a flowing rainbow effect",
+	"hud.elements.active_modules.settings.animations.name": "Animations",
+	"hud.elements.active_modules.settings.animations.description": "Smoothly slide modules in and out",
+	"hud.elements.active_modules.settings.reverseSort.name": "Reverse Sort",
+	"hud.elements.active_modules.settings.reverseSort.description": "Sort shortest to longest",
+	"hud.elements.active_modules.settings.rightAlign.name": "Right Align",
+	"hud.elements.active_modules.settings.rightAlign.description": "Align text to the right",
 
 	"modules.bridge_assist.name": "Bridge Assist",
 	"modules.bridge_assist.description": "Automatically sneaks at edges (Eagle). §cWarning: Ban risk on online servers! Buggy!"

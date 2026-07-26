@@ -81,6 +81,15 @@
 	"modules.custom_name_tag.settings.obfuscated.description": "Verschlüsselt den Text (&k)",
 
 	"hud.elements.server_ip.name": "Server IP",
+	"hud.elements.active_modules.name": "Aktive Module",
+	"hud.elements.active_modules.settings.rgbMode.name": "RGB Modus",
+	"hud.elements.active_modules.settings.rgbMode.description": "Animierter Regenbogen-Fluss",
+	"hud.elements.active_modules.settings.animations.name": "Animationen",
+	"hud.elements.active_modules.settings.animations.description": "Lässt Module sanft herein- und herausgleiten",
+	"hud.elements.active_modules.settings.reverseSort.name": "Umgekehrt sortieren",
+	"hud.elements.active_modules.settings.reverseSort.description": "Vom kürzesten zum längsten Modul",
+	"hud.elements.active_modules.settings.rightAlign.name": "Rechtsbündig",
+	"hud.elements.active_modules.settings.rightAlign.description": "Richtet den Text rechts aus",
 
 	"modules.bridge_assist.name": "Bridge Assist",
 	"modules.bridge_assist.description": "Sneakt automatisch an Kanten (Eagle). §cWarnung: Banngefahr auf Online-Servern (wie Hypixel)! Buggy!"
