@@ -4,6 +4,7 @@ import dev.xxapfelsaft.phantom.feature.commands.PhantomCommand;
 import dev.xxapfelsaft.phantom.feature.modules.HitEffectModule;
 import dev.xxapfelsaft.phantom.feature.modules.HitSoundModule;
 import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
+import dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule;
 import dev.xxapfelsaft.phantom.feature.modules.ServerIPElement;
 import com.dwarslooper.cactus.client.addon.v2.ICactusAddon;
 import com.dwarslooper.cactus.client.addon.v2.RegistryBus;
@@ -30,6 +31,7 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(Module.class, ctx -> new HitEffectModule());
         registryBus.register(Module.class, ctx -> new HitSoundModule());
         registryBus.register(Module.class, ctx -> new CustomNameTagModule());
+        registryBus.register(Module.class, ctx -> new BridgeAssistModule());
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
 
         LOGGER.info("Phantom Addon registered successfully!");

@@ -60,5 +60,8 @@
 	"modules.custom_name_tag.settings.yOffset.name": "Y Offset",
 	"modules.custom_name_tag.settings.yOffset.description": "Vertical offset in blocks (0.01 = 1 unit)",
 
-	"hud.elements.server_ip.name": "Server IP"
+	"hud.elements.server_ip.name": "Server IP",
+
+	"modules.bridge_assist.name": "Bridge Assist",
+	"modules.bridge_assist.description": "Automatically sneaks at edges (Eagle). §cWarning: Ban risk on online servers! Buggy!"
 }
