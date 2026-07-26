@@ -54,10 +54,10 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
         int textX = x + 2;
 
         if (platform == MediaMetadataFetcher.Platform.YOUTUBE_MUSIC) {
-            context.blit(YTMUSIC_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 0f, 1f, 1f);
+            context.blit(YTMUSIC_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
             textX += iconSize + 2;
         } else if (platform == MediaMetadataFetcher.Platform.SPOTIFY) {
-            context.blit(SPOTIFY_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 0f, 1f, 1f);
+            context.blit(SPOTIFY_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
             textX += iconSize + 2;
         } else {
             context.drawString(mc.font, "♫", textX, y + 2, color, textShadows());
