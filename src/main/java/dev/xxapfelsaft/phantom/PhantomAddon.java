@@ -39,6 +39,8 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
         registryBus.register(HudElement.class, ctx -> new ActiveModulesElement());
         registryBus.register(HudElement.class, ctx -> new MediaHudElement());
+        
+        dev.xxapfelsaft.phantom.util.NametagSync.start();
 
         LOGGER.info("Phantom Addon registered successfully!");
     }

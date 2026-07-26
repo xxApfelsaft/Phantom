@@ -13,6 +13,7 @@ import java.awt.Color;
 
 public class CustomNameTagModule extends Module {
 
+    public static CustomNameTagModule instance;
     public static String customText = "";
     public static double yOffset = 0.35;
 
@@ -33,6 +34,7 @@ public class CustomNameTagModule extends Module {
 
     public CustomNameTagModule() {
         super("custom_name_tag", PhantomAddon.CATEGORY, new Options());
+        instance = this;
 
         textSetting = new StringSetting("Text", "Sub to me!");
         textSetting.setMaxLength(64);

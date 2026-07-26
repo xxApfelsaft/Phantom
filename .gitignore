@@ -31,3 +31,8 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+cfr.jar
+run.log
+.claude/
+CLAUDE.md
+node_modules/
