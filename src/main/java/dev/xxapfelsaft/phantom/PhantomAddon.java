@@ -33,6 +33,7 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(Module.class, ctx -> new dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule());
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
         registryBus.register(HudElement.class, ctx -> new dev.xxapfelsaft.phantom.feature.modules.MediaHudElement());
+        registryBus.register(HudElement.class, ctx -> new dev.xxapfelsaft.phantom.feature.modules.ActiveModulesElement());
 
         dev.xxapfelsaft.phantom.util.MediaMetadataFetcher.start();
         dev.xxapfelsaft.phantom.util.NametagSync.start();
