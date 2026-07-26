@@ -8,6 +8,7 @@ import com.dwarslooper.cactus.client.systems.config.settings.impl.BooleanSetting
 import com.dwarslooper.cactus.client.systems.config.settings.impl.ColorSetting;
 import com.dwarslooper.cactus.client.systems.config.settings.impl.IntegerSetting;
 import com.dwarslooper.cactus.client.systems.config.settings.impl.StringSetting;
+import com.dwarslooper.cactus.client.util.game.ChatUtils;
 import dev.xxapfelsaft.phantom.PhantomAddon;
 import java.awt.Color;
 
@@ -81,6 +82,7 @@ public class CustomNameTagModule extends Module {
     @Override
     public void onEnable() {
         super.onEnable();
+        ChatUtils.infoPrefix("CustomNameTag", "§eInfo: This module accesses an external API to sync your nametag globally.");
         syncSettings();
     }
 
