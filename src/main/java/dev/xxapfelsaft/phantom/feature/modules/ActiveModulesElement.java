@@ -48,7 +48,7 @@ public class ActiveModulesElement extends DynamicHudElement<ActiveModulesElement
             float target = m.active() ? 1f : 0f;
             
             if (animationsSetting.get()) {
-                current += (target - current) * 0.15f; // Smooth approach
+                current += (target - current) * 0.15f;
                 if (Math.abs(target - current) < 0.005f) {
                     current = target;
                 }
@@ -110,7 +110,7 @@ public class ActiveModulesElement extends DynamicHudElement<ActiveModulesElement
             int color = defaultColor;
             if (isRgb) {
                 float hue = (System.currentTimeMillis() % 2000L) / 2000.0f - (index * 0.05f);
-                color = Color.HSBtoRGB(hue, 1.0f, 1.0f); // Keep full alpha
+                color = Color.HSBtoRGB(hue, 1.0f, 1.0f);
             }
 
             context.drawString(mc.font, name, renderX, currentY, color, shadows);

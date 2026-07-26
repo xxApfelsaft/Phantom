@@ -36,7 +36,6 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
         var mc = Minecraft.getInstance();
         if (mc.font == null) return;
 
-        // Fix background box size by forcing the width to expand/shrink
         Vector2i minSize = getMinSize();
         if (getSize().x != minSize.x || getSize().y != minSize.y) {
             resize(minSize.x, minSize.y);
@@ -78,13 +77,11 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
 
         context.drawString(mc.font, displayText, textX, y + 2, color, textShadows());
 
-        // Render progress bar
         long length = MediaMetadataFetcher.getLength();
         if (length > 0) {
             long pos = MediaMetadataFetcher.getPosition();
             long lastFetch = MediaMetadataFetcher.getLastFetchTime();
             
-            // Interpolate position smoothly
             if (MediaMetadataFetcher.isPlaying() && lastFetch > 0) {
                 pos += (System.currentTimeMillis() - lastFetch);
             }
@@ -97,7 +94,7 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
             context.fill(barX, barY, barX + barWidth, barY + 1, 0x80AAAAAA);
             if (pos > 0) {
                 int fillWidth = (int) ((double) pos / length * barWidth);
-                context.fill(barX, barY, barX + fillWidth, barY + 1, color | 0xFF000000); // Ensure full opacity for fill
+                context.fill(barX, barY, barX + fillWidth, barY + 1, color | 0xFF000000);
             }
         }
     }
