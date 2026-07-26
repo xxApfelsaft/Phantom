@@ -14,7 +14,7 @@ public class MediaMetadataFetcher {
     private static long currentLength = 0;
     private static long currentPosition = 0;
     private static long lastFetchTime = 0;
-    public enum Platform { NONE, YOUTUBE_MUSIC, SPOTIFY }
+    public enum Platform { NONE, YOUTUBE_MUSIC, SPOTIFY, SOUNDCLOUD, APPLE_MUSIC, DEEZER }
     private static Platform currentPlatform = Platform.NONE;
     private static ScheduledExecutorService executor;
 
@@ -85,7 +85,8 @@ public class MediaMetadataFetcher {
                 "$session = $manager.GetCurrentSession();" +
                 "if ($session) {" +
                 "    $props = $session.TryGetMediaPropertiesAsync().GetResults();" +
-                "    Write-Output ($props.Title + '|||' + $props.Artist);" +
+                "    $appId = ''; if ($session.SourceAppUserModelId) { $appId = $session.SourceAppUserModelId; }" +
+                "    Write-Output ($props.Title + '|||' + $props.Artist + '|||' + $appId);" +
                 "}";
 
         ProcessBuilder pb = new ProcessBuilder("powershell", "-NoProfile", "-NonInteractive", "-Command", script);
@@ -188,6 +189,12 @@ public class MediaMetadataFetcher {
                 currentPlatform = Platform.YOUTUBE_MUSIC;
             } else if (playerName.toLowerCase().contains("spotify") || url.contains("spotify") || title.toLowerCase().contains("spotify") || artist.toLowerCase().contains("spotify")) {
                 currentPlatform = Platform.SPOTIFY;
+            } else if (playerName.toLowerCase().contains("soundcloud") || url.contains("soundcloud") || title.toLowerCase().contains("soundcloud")) {
+                currentPlatform = Platform.SOUNDCLOUD;
+            } else if (playerName.toLowerCase().contains("apple") || url.contains("apple") || title.toLowerCase().contains("apple")) {
+                currentPlatform = Platform.APPLE_MUSIC;
+            } else if (playerName.toLowerCase().contains("deezer") || url.contains("deezer") || title.toLowerCase().contains("deezer")) {
+                currentPlatform = Platform.DEEZER;
             } else {
                 currentPlatform = Platform.NONE;
             }
@@ -233,10 +240,28 @@ public class MediaMetadataFetcher {
             String[] parts = line.split("\\|\\|\\|");
             currentTitle = parts.length > 0 ? parts[0].trim() : "";
             currentArtist = parts.length > 1 ? parts[1].trim() : "";
+            String appId = parts.length > 2 ? parts[2].trim().toLowerCase() : "";
             currentLength = 0;
             currentPosition = 0;
             lastFetchTime = System.currentTimeMillis();
-            currentPlatform = Platform.NONE;
+            
+            if (appId.contains("spotify") || currentTitle.toLowerCase().contains("spotify")) {
+                currentPlatform = Platform.SPOTIFY;
+            } else if (appId.contains("soundcloud") || currentTitle.toLowerCase().contains("soundcloud")) {
+                currentPlatform = Platform.SOUNDCLOUD;
+            } else if (appId.contains("apple") || appId.contains("itunes") || currentTitle.toLowerCase().contains("apple music")) {
+                currentPlatform = Platform.APPLE_MUSIC;
+            } else if (appId.contains("deezer") || currentTitle.toLowerCase().contains("deezer")) {
+                currentPlatform = Platform.DEEZER;
+            } else if (currentTitle.endsWith(" | YouTube Music")) {
+                currentTitle = currentTitle.substring(0, currentTitle.length() - " | YouTube Music".length());
+                currentPlatform = Platform.YOUTUBE_MUSIC;
+            } else if (appId.contains("chrome") || appId.contains("edge") || appId.contains("firefox")) {
+                currentPlatform = Platform.NONE; // Will just show ♫
+            } else {
+                currentPlatform = Platform.NONE;
+            }
+            
             isPlaying = !currentTitle.isEmpty();
         } else {
             currentTitle = "No Media";

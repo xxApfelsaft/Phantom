@@ -12,6 +12,9 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
 
     private static final Identifier YTMUSIC_ICON = Identifier.fromNamespaceAndPath("phantom", "textures/gui/ytmusic.png");
     private static final Identifier SPOTIFY_ICON = Identifier.fromNamespaceAndPath("phantom", "textures/gui/spotify.png");
+    private static final Identifier SOUNDCLOUD_ICON = Identifier.fromNamespaceAndPath("phantom", "textures/gui/soundcloud.png");
+    private static final Identifier APPLE_MUSIC_ICON = Identifier.fromNamespaceAndPath("phantom", "textures/gui/applemusic.png");
+    private static final Identifier DEEZER_ICON = Identifier.fromNamespaceAndPath("phantom", "textures/gui/deezer.png");
 
     public MediaHudElement() {
         super("media");
@@ -58,6 +61,15 @@ public class MediaHudElement extends DynamicHudElement<MediaHudElement> {
             textX += iconSize + 2;
         } else if (platform == MediaMetadataFetcher.Platform.SPOTIFY) {
             context.blit(SPOTIFY_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
+            textX += iconSize + 2;
+        } else if (platform == MediaMetadataFetcher.Platform.SOUNDCLOUD) {
+            context.blit(SOUNDCLOUD_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
+            textX += iconSize + 2;
+        } else if (platform == MediaMetadataFetcher.Platform.APPLE_MUSIC) {
+            context.blit(APPLE_MUSIC_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
+            textX += iconSize + 2;
+        } else if (platform == MediaMetadataFetcher.Platform.DEEZER) {
+            context.blit(DEEZER_ICON, textX, y + 2, textX + iconSize, y + 2 + iconSize, 0f, 1f, 0f, 1f);
             textX += iconSize + 2;
         } else {
             context.drawString(mc.font, "♫", textX, y + 2, color, textShadows());
