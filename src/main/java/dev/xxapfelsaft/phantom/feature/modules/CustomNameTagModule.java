@@ -19,6 +19,7 @@ public class CustomNameTagModule extends Module {
 
     private final StringSetting textSetting;
     private final IntegerSetting yOffsetSetting;
+    public final BooleanSetting broadcastWhenDisabledSetting;
     
     private final BooleanSetting rainbowSetting;
     private final BooleanSetting useGradientSetting;
@@ -42,6 +43,9 @@ public class CustomNameTagModule extends Module {
 
         yOffsetSetting = new IntegerSetting("YOffset", 35).min(-300).max(300);
         mainGroup.add(yOffsetSetting);
+
+        broadcastWhenDisabledSetting = new BooleanSetting("broadcastWhenDisabled", true);
+        mainGroup.add(broadcastWhenDisabledSetting);
 
         rainbowSetting = new BooleanSetting("rainbow", false);
         mainGroup.add(rainbowSetting);
@@ -92,29 +96,38 @@ public class CustomNameTagModule extends Module {
         syncSettings();
     }
 
-    private void syncSettings() {
-        String baseText = textSetting.get();
+    public static String getCurrentText() {
+        if (instance == null) return "";
+        String baseText = instance.textSetting.get();
         String formatting = "";
 
-        if (boldSetting.get()) formatting += "&l";
-        if (italicSetting.get()) formatting += "&o";
-        if (underlineSetting.get()) formatting += "&n";
-        if (strikeSetting.get()) formatting += "&m";
-        if (obfSetting.get()) formatting += "&k";
+        if (instance.boldSetting.get()) formatting += "&l";
+        if (instance.italicSetting.get()) formatting += "&o";
+        if (instance.underlineSetting.get()) formatting += "&n";
+        if (instance.strikeSetting.get()) formatting += "&m";
+        if (instance.obfSetting.get()) formatting += "&k";
 
         baseText = formatting + baseText;
 
-        if (rainbowSetting.get()) {
-            customText = "<rainbow>" + baseText + "</rainbow>";
-        } else if (useGradientSetting.get()) {
-            String hex1 = String.format("%06X", (0xFFFFFF & color1Setting.get().color()));
-            String hex2 = String.format("%06X", (0xFFFFFF & color2Setting.get().color()));
-            customText = "<gradient:#" + hex1 + ":#" + hex2 + ">" + baseText + "</gradient>";
+        if (instance.rainbowSetting.get()) {
+            return "<rainbow>" + baseText + "</rainbow>";
+        } else if (instance.useGradientSetting.get()) {
+            String hex1 = String.format("%06X", (0xFFFFFF & instance.color1Setting.get().color()));
+            String hex2 = String.format("%06X", (0xFFFFFF & instance.color2Setting.get().color()));
+            return "<gradient:#" + hex1 + ":#" + hex2 + ">" + baseText + "</gradient>";
         } else {
-            String hex = String.format("%06X", (0xFFFFFF & singleColorSetting.get().color()));
-            customText = "<solid:#" + hex + ">" + baseText + "</solid>";
+            String hex = String.format("%06X", (0xFFFFFF & instance.singleColorSetting.get().color()));
+            return "<solid:#" + hex + ">" + baseText + "</solid>";
         }
-        
-        yOffset = yOffsetSetting.get() / 100.0;
+    }
+
+    public static double getCurrentYOffset() {
+        if (instance == null) return 0.35;
+        return instance.yOffsetSetting.get() / 100.0;
+    }
+
+    private void syncSettings() {
+        customText = getCurrentText();
+        yOffset = getCurrentYOffset();
     }
 }

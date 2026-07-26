@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 // In-memory cache for nametags
-// Key: UUID, Value: { text, formatting, lastUpdate }
+// Key: UUID, Value: { text, yOffset, formatting, lastUpdate }
 const tagsCache = new Map();
 
 // Time to live (TTL) in milliseconds. Default: 5 minutes
@@ -16,7 +16,7 @@ const tagsCache = new Map();
 const TTL = 5 * 60 * 1000; 
 
 app.post('/api/nametags/update', (req, res) => {
-    const { uuid, text, formatting } = req.body;
+    const { uuid, text, yOffset, formatting } = req.body;
     
     if (!uuid || typeof uuid !== 'string') {
         return res.status(400).json({ error: 'Missing or invalid uuid' });
@@ -25,6 +25,7 @@ app.post('/api/nametags/update', (req, res) => {
     if (text && typeof text === 'string') {
         tagsCache.set(uuid, {
             text: text.substring(0, 64), // limit length
+            yOffset: typeof yOffset === 'number' ? yOffset : 0.35,
             formatting: formatting || {},
             lastUpdate: Date.now()
         });
@@ -46,6 +47,7 @@ app.get('/api/nametags', (req, res) => {
         } else {
             result[uuid] = {
                 text: data.text,
+                yOffset: data.yOffset,
                 formatting: data.formatting
             };
         }

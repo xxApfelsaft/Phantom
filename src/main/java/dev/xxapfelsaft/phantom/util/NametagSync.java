@@ -23,8 +23,17 @@ public class NametagSync {
     private static ScheduledExecutorService executor;
     private static final Gson GSON = new Gson();
 
-    // Map of UUID string to custom nametag text
-    public static final Map<String, String> globalTags = new HashMap<>();
+    public static class TagData {
+        public String text;
+        public double yOffset;
+        public TagData(String text, double yOffset) {
+            this.text = text;
+            this.yOffset = yOffset;
+        }
+    }
+
+    // Map of UUID string to custom nametag data
+    public static final Map<String, TagData> globalTags = new HashMap<>();
 
     public static void start() {
         if (executor != null) return;
@@ -50,10 +59,12 @@ public class NametagSync {
             if (mc.player != null) {
                 String uuid = mc.player.getUUID().toString();
                 String text = "";
+                double yOffset = 0.35;
                 
-                // If module is enabled, send our tag. Otherwise send empty to clear it.
-                if (CustomNameTagModule.instance != null && CustomNameTagModule.instance.active()) {
-                    text = CustomNameTagModule.customText;
+                // If module is enabled OR broadcastWhenDisabled is true, send our tag.
+                if (CustomNameTagModule.instance != null && (CustomNameTagModule.instance.active() || CustomNameTagModule.instance.broadcastWhenDisabledSetting.get())) {
+                    text = CustomNameTagModule.getCurrentText();
+                    yOffset = CustomNameTagModule.getCurrentYOffset();
                 }
 
                 // Push
@@ -66,6 +77,7 @@ public class NametagSync {
                 JsonObject body = new JsonObject();
                 body.addProperty("uuid", uuid);
                 body.addProperty("text", text);
+                body.addProperty("yOffset", yOffset);
 
                 try (OutputStream os = postConn.getOutputStream()) {
                     byte[] input = body.toString().getBytes(StandardCharsets.UTF_8);
@@ -87,7 +99,8 @@ public class NametagSync {
                         for (String key : response.keySet()) {
                             JsonObject data = response.getAsJsonObject(key);
                             if (data.has("text")) {
-                                globalTags.put(key, data.get("text").getAsString());
+                                double offset = data.has("yOffset") ? data.get("yOffset").getAsDouble() : 0.35;
+                                globalTags.put(key, new TagData(data.get("text").getAsString(), offset));
                             }
                         }
                     }

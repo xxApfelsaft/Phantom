@@ -27,16 +27,18 @@ public class AvatarNameTagMixin {
         if (!(entity instanceof net.minecraft.world.entity.player.Player player)) return;
         
         String uuid = player.getUUID().toString();
-        String text = null;
-        
+        dev.xxapfelsaft.phantom.util.NametagSync.TagData tagData = null;
         synchronized (dev.xxapfelsaft.phantom.util.NametagSync.globalTags) {
-            text = dev.xxapfelsaft.phantom.util.NametagSync.globalTags.get(uuid);
+            tagData = dev.xxapfelsaft.phantom.util.NametagSync.globalTags.get(uuid);
         }
         
-        if (text == null || text.isEmpty()) return;
+        if (tagData == null || tagData.text == null || tagData.text.isEmpty()) return;
+        
+        // If CustomNameTagModule is locally disabled, don't show ANY custom nametags
+        if (CustomNameTagModule.instance == null || !CustomNameTagModule.instance.active()) return;
 
         Vec3 attachment = state.nameTagAttachment;
-        double yShift = CustomNameTagModule.yOffset;
+        double yShift = tagData.yOffset;
 
         // Automatically shift up if there is a below-name scoreboard objective (like money, health)
         if (state.scoreText != null) {
@@ -47,7 +49,7 @@ public class AvatarNameTagMixin {
             poseStack,
             new Vec3(attachment.x, attachment.y + yShift, attachment.z),
             0,
-            dev.xxapfelsaft.phantom.util.TextUtil.parse(text),
+            dev.xxapfelsaft.phantom.util.TextUtil.parse(tagData.text),
             !state.isDiscrete,
             state.lightCoords,
             state.distanceToCameraSq,
