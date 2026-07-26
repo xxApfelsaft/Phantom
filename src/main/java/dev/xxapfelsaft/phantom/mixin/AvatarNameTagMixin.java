@@ -38,6 +38,8 @@ public class AvatarNameTagMixin {
         if (CustomNameTagModule.instance == null || !CustomNameTagModule.instance.active()) return;
 
         Vec3 attachment = state.nameTagAttachment;
+        if (attachment == null) return;
+        
         double yShift = tagData.yOffset;
 
         // Automatically shift up if there is a below-name scoreboard objective (like money, health)
