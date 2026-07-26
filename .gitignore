@@ -36,3 +36,4 @@ run.log
 .claude/
 CLAUDE.md
 node_modules/
+nametag-api/
