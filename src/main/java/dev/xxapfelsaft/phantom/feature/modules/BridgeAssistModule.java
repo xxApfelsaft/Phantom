@@ -40,31 +40,26 @@ public class BridgeAssistModule extends Module {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null) return;
 
-        // Check if the player is likely bridging (looking down and holding a block)
         boolean isBridging = mc.player.getXRot() > 50.0f &&
             (mc.player.getMainHandItem().getItem() instanceof net.minecraft.world.item.BlockItem ||
              mc.player.getOffhandItem().getItem() instanceof net.minecraft.world.item.BlockItem);
 
-        // Assist if on the ground, or if they are jump-bridging
         if (mc.player.onGround() || isBridging) {
             BlockPos posBelow = mc.player.blockPosition().below();
             boolean overAir = mc.level.getBlockState(posBelow).isAir();
 
             if (overAir) {
-                // If over air and not already sneaking, force sneak
                 if (!mc.options.keyShift.isDown()) {
                     mc.options.keyShift.setDown(true);
                     isForcingSneak = true;
                 }
             } else {
-                // If over solid block and we were the ones who forced the sneak, release it
                 if (isForcingSneak) {
                     mc.options.keyShift.setDown(false);
                     isForcingSneak = false;
                 }
             }
         } else {
-            // Release sneak if we are jumping or falling normally
             if (isForcingSneak) {
                 mc.options.keyShift.setDown(false);
                 isForcingSneak = false;
