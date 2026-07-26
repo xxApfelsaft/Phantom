@@ -82,6 +82,7 @@
 
 	"hud.elements.server_ip.name": "Server IP",
 	"hud.elements.active_modules.name": "Active Modules",
+	"hud.elements.media.name": "Now Playing (Media)",
 	"hud.elements.active_modules.settings.rgbMode.name": "RGB Mode",
 	"hud.elements.active_modules.settings.rgbMode.description": "Animate a flowing rainbow effect",
 	"hud.elements.active_modules.settings.animations.name": "Animations",

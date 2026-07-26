@@ -82,6 +82,7 @@
 
 	"hud.elements.server_ip.name": "Server IP",
 	"hud.elements.active_modules.name": "Aktive Module",
+	"hud.elements.media.name": "Aktueller Song (Media)",
 	"hud.elements.active_modules.settings.rgbMode.name": "RGB Modus",
 	"hud.elements.active_modules.settings.rgbMode.description": "Animierter Regenbogen-Fluss",
 	"hud.elements.active_modules.settings.animations.name": "Animationen",

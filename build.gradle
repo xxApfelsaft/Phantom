@@ -66,3 +66,15 @@ publishing {
 	repositories {
 	}
 }
+task runTest(type: JavaExec) {
+    mainClass = "dev.xxapfelsaft.phantom.feature.modules.TestIdentifier"
+    classpath = sourceSets.main.runtimeClasspath
+}
+task runGuiTest(type: JavaExec) {
+    mainClass = "dev.xxapfelsaft.phantom.feature.modules.TestGuiGraphics"
+    classpath = sourceSets.main.runtimeClasspath
+}
+task runFogTest(type: JavaExec) {
+    mainClass = "dev.xxapfelsaft.phantom.feature.modules.TestFog"
+    classpath = sourceSets.main.runtimeClasspath
+}

@@ -7,6 +7,7 @@ import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
 import dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule;
 import dev.xxapfelsaft.phantom.feature.modules.ServerIPElement;
 import dev.xxapfelsaft.phantom.feature.modules.ActiveModulesElement;
+import dev.xxapfelsaft.phantom.feature.modules.MediaHudElement;
 import com.dwarslooper.cactus.client.addon.v2.ICactusAddon;
 import com.dwarslooper.cactus.client.addon.v2.RegistryBus;
 import com.dwarslooper.cactus.client.feature.module.Category;
@@ -35,6 +36,7 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(Module.class, ctx -> new BridgeAssistModule());
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
         registryBus.register(HudElement.class, ctx -> new ActiveModulesElement());
+        registryBus.register(HudElement.class, ctx -> new MediaHudElement());
 
         LOGGER.info("Phantom Addon registered successfully!");
     }
