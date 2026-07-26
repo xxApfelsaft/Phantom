@@ -44,6 +44,11 @@ public class AvatarNameTagMixin {
         Vec3 attachment = state.nameTagAttachment;
         double yShift = CustomNameTagModule.yOffset;
 
+        // Automatically shift up if there is a below-name scoreboard objective (like money, health)
+        if (state.scoreText != null) {
+            yShift += 0.3;
+        }
+
         collector.submitNameTag(
             poseStack,
             new Vec3(attachment.x, attachment.y + yShift, attachment.z),
