@@ -5,6 +5,7 @@ import dev.xxapfelsaft.phantom.feature.modules.HitEffectModule;
 import dev.xxapfelsaft.phantom.feature.modules.HitSoundModule;
 import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
 import dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule;
+import dev.xxapfelsaft.phantom.feature.modules.ClearElementsModule;
 import dev.xxapfelsaft.phantom.feature.modules.ServerIPElement;
 import dev.xxapfelsaft.phantom.feature.modules.ActiveModulesElement;
 import dev.xxapfelsaft.phantom.feature.modules.MediaHudElement;
@@ -34,6 +35,7 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(Module.class, ctx -> new HitSoundModule());
         registryBus.register(Module.class, ctx -> new CustomNameTagModule());
         registryBus.register(Module.class, ctx -> new BridgeAssistModule());
+        registryBus.register(Module.class, ctx -> new ClearElementsModule());
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
         registryBus.register(HudElement.class, ctx -> new ActiveModulesElement());
         registryBus.register(HudElement.class, ctx -> new MediaHudElement());

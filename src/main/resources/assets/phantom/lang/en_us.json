@@ -93,5 +93,14 @@
 	"hud.elements.active_modules.settings.rightAlign.description": "Align text to the right",
 
 	"modules.bridge_assist.name": "Bridge Assist",
-	"modules.bridge_assist.description": "Automatically sneaks at edges (Eagle). §cWarning: Ban risk on online servers! Buggy!"
+	"modules.bridge_assist.description": "Automatically sneaks at edges (Eagle). §cWarning: Ban risk on online servers! Buggy!",
+
+	"modules.clearElements.name": "Clear Elements",
+	"modules.clearElements.description": "Removes fog and makes water/lava clear",
+	"modules.clearElements.settings.clearWater.name": "Clear Water",
+	"modules.clearElements.settings.clearWater.description": "Makes water completely clear",
+	"modules.clearElements.settings.clearLava.name": "Clear Lava",
+	"modules.clearElements.settings.clearLava.description": "Makes lava completely clear",
+	"modules.clearElements.settings.noFog.name": "No Fog",
+	"modules.clearElements.settings.noFog.description": "Removes atmospheric fog"
 }

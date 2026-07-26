@@ -93,5 +93,14 @@
 	"hud.elements.active_modules.settings.rightAlign.description": "Richtet den Text rechts aus",
 
 	"modules.bridge_assist.name": "Bridge Assist",
-	"modules.bridge_assist.description": "Sneakt automatisch an Kanten (Eagle). §cWarnung: Banngefahr auf Online-Servern (wie Hypixel)! Buggy!"
+	"modules.bridge_assist.description": "Sneakt automatisch an Kanten (Eagle). §cWarnung: Banngefahr auf Online-Servern (wie Hypixel)! Buggy!",
+
+	"modules.clearElements.name": "Clear Elements",
+	"modules.clearElements.description": "Entfernt Nebel und macht Wasser/Lava durchsichtig",
+	"modules.clearElements.settings.clearWater.name": "Klares Wasser",
+	"modules.clearElements.settings.clearWater.description": "Macht Wasser unter Wasser komplett durchsichtig",
+	"modules.clearElements.settings.clearLava.name": "Klare Lava",
+	"modules.clearElements.settings.clearLava.description": "Macht Lava unter Lava komplett durchsichtig",
+	"modules.clearElements.settings.noFog.name": "Kein Nebel",
+	"modules.clearElements.settings.noFog.description": "Entfernt den atmosphärischen Nebel in der Ferne"
 }
