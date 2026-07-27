@@ -5,6 +5,7 @@
 	"mixins": [
 		"AttackMixin",
 		"AvatarNameTagMixin",
+		"ObjectiveTrackerMixin",
 		"ClearElementsMixin"
 	],
 	"injectors": {
