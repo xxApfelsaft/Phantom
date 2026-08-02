@@ -5,7 +5,6 @@ import dev.xxapfelsaft.phantom.util.MediaMetadataFetcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
-import com.mojang.blaze3d.systems.RenderSystem;
 import org.joml.Vector2i;
 
 public class MediaHudElement extends DynamicHudElement<MediaHudElement> {

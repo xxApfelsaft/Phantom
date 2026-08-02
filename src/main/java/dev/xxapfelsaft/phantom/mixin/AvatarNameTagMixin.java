@@ -54,7 +54,6 @@ public class AvatarNameTagMixin {
             dev.xxapfelsaft.phantom.util.TextUtil.parse(tagData.text),
             !state.isDiscrete,
             state.lightCoords,
-            state.distanceToCameraSq,
             camera
         );
     }
