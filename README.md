@@ -21,6 +21,40 @@ Phantom extends Cactus with additional modules, HUD elements, and quality-of-lif
 | Element | Description |
 |---------|-------------|
 | **Server IP** | Displays the current server IP address directly on your HUD. Shows "Singleplayer" when playing offline. Fully positionable via the Cactus HUD editor. |
+| **Active Modules** | Displays a list of currently active modules with customizable sorting and animations. |
+| **Media HUD** | Displays current playing media track info with progress bar. |
+
+### HUD Placeholders
+
+Phantom adds several custom placeholders that can be used in any Cactus text HUD element (e.g. `{placeholder}`):
+
+| Placeholder | Example Output | Description |
+|-------------|----------------|-------------|
+| `{server.ip.resolved}` | `172.65.234.12` | Numerically resolved server IP address (or `Singleplayer`) |
+| `{server.ip.resolved.port}` | `172.65.234.12:25565` | Resolved IP with port |
+| `{server.port}` | `25565` | Current server port |
+| `{client.brand.f3}` | `fabric` | Client brand name from F3 / `ClientBrandRetriever` |
+| `{client.brand.full}` | `Minecraft 1.21.11 (1.21.11/fabric)` | Full client version and brand info |
+| `{server.brand.f3}` | `paper` / `vanilla` | Server brand name from network connection |
+| `{client.protocol.id}` | `769` | Client protocol version number |
+| `{server.protocol.id}` | `769` | Server protocol version number |
+| `{gpu.name}` / `{gpu}` | `NVIDIA GeForce RTX 4080` | GPU renderer model name |
+| `{gpu.vendor}` | `NVIDIA Corporation` | GPU vendor |
+| `{gpu.version}` | `4.6.0 NVIDIA 550.54.14` | Graphics driver / OpenGL version |
+| `{gpu.backend}` | `OpenGL` | Graphics backend API |
+| `{ram.percent}` | `42%` | Current JVM RAM usage in percent |
+| `{ram.usage}` | `2100MB / 4096MB (51%)` | Formatted RAM usage summary |
+| `{ram.used}` | `2100MB` | Used RAM |
+| `{ram.max}` | `4096MB` | Maximum allocated RAM |
+| `{ram.free}` | `1996MB` | Free allocated RAM |
+| `{ram.used.gb}` | `2.05 GB` | Used RAM in Gigabytes |
+| `{ram.max.gb}` | `4.00 GB` | Max RAM in Gigabytes |
+| `{cpu.name}` / `{cpu}` | `AMD Ryzen 7 7800X3D` | CPU processor model |
+| `{cpu.cores}` | `16` | Available CPU core count |
+| `{display.resolution}` | `1920x1080` | Current game window resolution |
+| `{client.mods.count}` | `64` | Total loaded Fabric mods count |
+| `{server.ping.ms}` | `23ms` | Server ping in milliseconds |
+| `{phantom.media}` | `Song Name - Artist` | Currently playing media track info |
 
 ---
 

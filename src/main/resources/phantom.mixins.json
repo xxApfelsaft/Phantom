@@ -5,7 +5,8 @@
 	"mixins": [
 		"AttackMixin",
 		"AvatarNameTagMixin",
-		"ClearElementsMixin"
+		"ClearElementsMixin",
+		"PlaceholderHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
