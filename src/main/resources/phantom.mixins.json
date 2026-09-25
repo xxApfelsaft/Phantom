@@ -6,7 +6,8 @@
 		"AttackMixin",
 		"AvatarNameTagMixin",
 		"ClearElementsMixin",
-		"PlaceholderHandlerMixin"
+		"PlaceholderHandlerMixin",
+		"TitleScreenRealmsReplaceMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
