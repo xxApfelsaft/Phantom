@@ -1,14 +1,17 @@
 package dev.xxapfelsaft.phantom.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
+import dev.xxapfelsaft.phantom.util.NametagSync;
+import dev.xxapfelsaft.phantom.util.TextUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import com.mojang.blaze3d.vertex.PoseStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,28 +22,24 @@ public class AvatarNameTagMixin {
 
     @Inject(at = @At("TAIL"), method = "submitNameTag(Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V")
     private void afterSubmitNameTag(AvatarRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera, CallbackInfo ci) {
-        // Get player from entity ID
-        var mc = Minecraft.getInstance();
+        Minecraft mc = Minecraft.getInstance();
         if (mc.level == null) return;
-        
-        net.minecraft.world.entity.Entity entity = mc.level.getEntity(state.id);
-        if (!(entity instanceof net.minecraft.world.entity.player.Player player)) return;
-        
+
+        Entity entity = mc.level.getEntity(state.id);
+        if (!(entity instanceof Player player)) return;
+
         String uuid = player.getUUID().toString();
-        dev.xxapfelsaft.phantom.util.NametagSync.TagData tagData = null;
-        synchronized (dev.xxapfelsaft.phantom.util.NametagSync.globalTags) {
-            tagData = dev.xxapfelsaft.phantom.util.NametagSync.globalTags.get(uuid);
-        }
-        
-        if (tagData == null || tagData.text == null || tagData.text.isEmpty()) return;
-        
+        NametagSync.TagData tagData = NametagSync.globalTags.get(uuid);
+
+        if (tagData == null || tagData.text() == null || tagData.text().isEmpty()) return;
+
         // If CustomNameTagModule is locally disabled, don't show ANY custom nametags
         if (CustomNameTagModule.instance == null || !CustomNameTagModule.instance.active()) return;
 
         Vec3 attachment = state.nameTagAttachment;
         if (attachment == null) return;
-        
-        double yShift = tagData.yOffset;
+
+        double yShift = tagData.yOffset();
 
         // Automatically shift up if there is a below-name scoreboard objective (like money, health)
         if (state.scoreText != null) {
@@ -51,7 +50,7 @@ public class AvatarNameTagMixin {
             poseStack,
             new Vec3(attachment.x, attachment.y + yShift, attachment.z),
             0,
-            dev.xxapfelsaft.phantom.util.TextUtil.parse(tagData.text),
+            TextUtil.parse(tagData.text()),
             !state.isDiscrete,
             state.lightCoords,
             state.distanceToCameraSq,

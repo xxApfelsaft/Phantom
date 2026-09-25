@@ -7,6 +7,7 @@ import com.dwarslooper.cactus.client.util.game.ChatUtils;
 import dev.xxapfelsaft.phantom.PhantomAddon;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
 
 public class BridgeAssistModule extends Module {
 
@@ -41,8 +42,8 @@ public class BridgeAssistModule extends Module {
         if (mc.player == null || mc.level == null) return;
 
         boolean isBridging = mc.player.getXRot() > 50.0f &&
-            (mc.player.getMainHandItem().getItem() instanceof net.minecraft.world.item.BlockItem ||
-             mc.player.getOffhandItem().getItem() instanceof net.minecraft.world.item.BlockItem);
+            (mc.player.getMainHandItem().getItem() instanceof BlockItem ||
+             mc.player.getOffhandItem().getItem() instanceof BlockItem);
 
         if (mc.player.onGround() || isBridging) {
             BlockPos posBelow = mc.player.blockPosition().below();

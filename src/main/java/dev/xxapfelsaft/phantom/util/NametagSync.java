@@ -1,18 +1,18 @@
 package dev.xxapfelsaft.phantom.util;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev.xxapfelsaft.phantom.PhantomAddon;
 import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
 import net.minecraft.client.Minecraft;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,21 +21,13 @@ public class NametagSync {
 
     private static final String API_URL = "https://phantomapi.xxapfelsaft.xyz/api/nametags";
     private static ScheduledExecutorService executor;
-    private static final Gson GSON = new Gson();
 
-    public static class TagData {
-        public String text;
-        public double yOffset;
-        public TagData(String text, double yOffset) {
-            this.text = text;
-            this.yOffset = yOffset;
-        }
-    }
+    public record TagData(String text, double yOffset) {}
 
-    // Map of UUID string to custom nametag data
-    public static final Map<String, TagData> globalTags = new HashMap<>();
+    // Thread-safe map of UUID string to custom nametag data
+    public static final Map<String, TagData> globalTags = new ConcurrentHashMap<>();
 
-    public static void start() {
+    public static synchronized void start() {
         if (executor != null) return;
         executor = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread t = new Thread(r, "NametagSync");
@@ -46,7 +38,7 @@ public class NametagSync {
         executor.scheduleAtFixedRate(NametagSync::sync, 0, 5, TimeUnit.SECONDS);
     }
 
-    public static void stop() {
+    public static synchronized void stop() {
         if (executor != null) {
             executor.shutdownNow();
             executor = null;
@@ -60,7 +52,7 @@ public class NametagSync {
                 String uuid = mc.player.getUUID().toString();
                 String text = "";
                 double yOffset = 0.35;
-                
+
                 // If module is enabled OR broadcastWhenDisabled is true, send our tag.
                 if (CustomNameTagModule.instance != null && (CustomNameTagModule.instance.active() || CustomNameTagModule.instance.broadcastWhenDisabledSetting.get())) {
                     text = CustomNameTagModule.getCurrentText();
@@ -68,10 +60,11 @@ public class NametagSync {
                 }
 
                 // Push
-                URL postUrl = new URL(API_URL + "/update");
-                HttpURLConnection postConn = (HttpURLConnection) postUrl.openConnection();
+                HttpURLConnection postConn = (HttpURLConnection) URI.create(API_URL + "/update").toURL().openConnection();
                 postConn.setRequestMethod("POST");
                 postConn.setRequestProperty("Content-Type", "application/json");
+                postConn.setConnectTimeout(5000);
+                postConn.setReadTimeout(5000);
                 postConn.setDoOutput(true);
 
                 JsonObject body = new JsonObject();
@@ -83,31 +76,32 @@ public class NametagSync {
                     byte[] input = body.toString().getBytes(StandardCharsets.UTF_8);
                     os.write(input, 0, input.length);
                 }
-                postConn.getResponseCode(); // Execute request
+                postConn.getResponseCode();
+                postConn.disconnect();
             }
 
             // Pull
-            URL getUrl = new URL(API_URL);
-            HttpURLConnection getConn = (HttpURLConnection) getUrl.openConnection();
+            HttpURLConnection getConn = (HttpURLConnection) URI.create(API_URL).toURL().openConnection();
             getConn.setRequestMethod("GET");
+            getConn.setConnectTimeout(5000);
+            getConn.setReadTimeout(5000);
 
             if (getConn.getResponseCode() == 200) {
                 try (InputStreamReader reader = new InputStreamReader(getConn.getInputStream(), StandardCharsets.UTF_8)) {
                     JsonObject response = JsonParser.parseReader(reader).getAsJsonObject();
-                    synchronized (globalTags) {
-                        globalTags.clear();
-                        for (String key : response.keySet()) {
-                            JsonObject data = response.getAsJsonObject(key);
-                            if (data.has("text")) {
-                                double offset = data.has("yOffset") ? data.get("yOffset").getAsDouble() : 0.35;
-                                globalTags.put(key, new TagData(data.get("text").getAsString(), offset));
-                            }
+                    globalTags.clear();
+                    for (String key : response.keySet()) {
+                        JsonObject data = response.getAsJsonObject(key);
+                        if (data.has("text")) {
+                            double offset = data.has("yOffset") ? data.get("yOffset").getAsDouble() : 0.35;
+                            globalTags.put(key, new TagData(data.get("text").getAsString(), offset));
                         }
                     }
                 }
             }
+            getConn.disconnect();
         } catch (Exception e) {
-            // Silently fail if API is down
+            PhantomAddon.LOGGER.debug("Nametag sync cycle skipped: {}", e.getMessage());
         }
     }
 }

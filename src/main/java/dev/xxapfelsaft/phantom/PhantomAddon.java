@@ -1,20 +1,22 @@
 package dev.xxapfelsaft.phantom;
 
-import dev.xxapfelsaft.phantom.feature.commands.PhantomCommand;
-import dev.xxapfelsaft.phantom.feature.modules.HitEffectModule;
-import dev.xxapfelsaft.phantom.feature.modules.HitSoundModule;
-import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
-import dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule;
-import dev.xxapfelsaft.phantom.feature.modules.ClearElementsModule;
-import dev.xxapfelsaft.phantom.feature.modules.ServerIPElement;
-import dev.xxapfelsaft.phantom.feature.modules.ActiveModulesElement;
-import dev.xxapfelsaft.phantom.feature.modules.MediaHudElement;
 import com.dwarslooper.cactus.client.addon.v2.ICactusAddon;
 import com.dwarslooper.cactus.client.addon.v2.RegistryBus;
+import com.dwarslooper.cactus.client.feature.command.Command;
 import com.dwarslooper.cactus.client.feature.module.Category;
 import com.dwarslooper.cactus.client.feature.module.Module;
-import com.dwarslooper.cactus.client.feature.command.Command;
 import com.dwarslooper.cactus.client.gui.hud.element.HudElement;
+import dev.xxapfelsaft.phantom.feature.commands.PhantomCommand;
+import dev.xxapfelsaft.phantom.feature.modules.ActiveModulesElement;
+import dev.xxapfelsaft.phantom.feature.modules.BridgeAssistModule;
+import dev.xxapfelsaft.phantom.feature.modules.ClearElementsModule;
+import dev.xxapfelsaft.phantom.feature.modules.CustomNameTagModule;
+import dev.xxapfelsaft.phantom.feature.modules.HitEffectModule;
+import dev.xxapfelsaft.phantom.feature.modules.HitSoundModule;
+import dev.xxapfelsaft.phantom.feature.modules.MediaHudElement;
+import dev.xxapfelsaft.phantom.feature.modules.ServerIPElement;
+import dev.xxapfelsaft.phantom.util.NametagSync;
+import dev.xxapfelsaft.phantom.util.PhantomPlaceholders;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
@@ -39,9 +41,9 @@ public class PhantomAddon implements ICactusAddon {
         registryBus.register(HudElement.class, ctx -> new ServerIPElement());
         registryBus.register(HudElement.class, ctx -> new ActiveModulesElement());
         registryBus.register(HudElement.class, ctx -> new MediaHudElement());
-        
-        dev.xxapfelsaft.phantom.util.NametagSync.start();
-        dev.xxapfelsaft.phantom.util.PhantomPlaceholders.init();
+
+        NametagSync.start();
+        PhantomPlaceholders.init();
 
         LOGGER.info("Phantom Addon registered successfully!");
     }
@@ -54,5 +56,6 @@ public class PhantomAddon implements ICactusAddon {
     @Override
     public void onShutdown() {
         LOGGER.info("Phantom Addon shutting down.");
+        NametagSync.stop();
     }
 }
